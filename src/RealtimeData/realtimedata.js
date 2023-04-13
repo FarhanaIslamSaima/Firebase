@@ -5,15 +5,14 @@ const collection_name='books';
 
 export const findAll=async()=>{
     let res=[]
-   const doc_refs=await getDocs(collection(getDb(),collection_name));
-   doc_refs.forEach(book => {
-    res.push({
-        id:book.id,
-        ...book.data()
+    const col_ref=collection(getDb(),'books')
+    onSnapshot(col_ref,(snapshot)=>{
+        let books=[];
+        snapshot.docs.forEach((doc)=>{
+            books.push({...doc.data(),id:doc.id})
+        })
+        console.log(books)
     })
-    
-   });
-   console.log(res);
    
     
     return res;
